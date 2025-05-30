@@ -1,0 +1,34 @@
+{
+    "cities": [
+        {
+            "title": "Sydney",
+            "country": "Australia",
+            "description": "Discover events in beautiful Sydney",
+            "image": "/images/cities/sydney.jpg"
+        },
+        {
+            "title": "Jaipur",
+            "country": "India",
+            "description": "Explore heritage and tech events in Jaipur",
+            "image": "/images/cities/jaipur.webp"
+        },
+        {
+            "title": "New York",
+            "country": "NY",
+            "description": "Attend top events in NYC",
+            "image": "/images/cities/newYork.jpg"
+        },
+        {
+            "title": "Mumbai",
+            "country": "India",
+            "description": "Join vibrant meetups in Mumbai",
+            "image": "/images/cities/mumbai.webp"
+        },
+        {
+            "title": "London",
+            "country": "UK",
+            "description": "What's happening in London?",
+            "image": "/images/cities/london.jpeg"
+        }
+    ]
+}
