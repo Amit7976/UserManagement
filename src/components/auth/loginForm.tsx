@@ -1,10 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { credentialsLogin } from "./actions/login";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,9 +14,6 @@ import { credentialsLogin } from "./actions/login";
 const LoginForm = () => {
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    
     const router = useRouter();
 
 

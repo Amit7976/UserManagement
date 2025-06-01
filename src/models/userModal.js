@@ -1,41 +1,54 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const geoSchema = new mongoose.Schema(
+    {
+        lat: { type: String },
+        lng: { type: String },
     },
-    url: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-    location: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-    },
-  },
-  { timestamps: true }
+    { _id: false }
 );
 
 
+const addressSchema = new mongoose.Schema(
+    {
+        street: { type: String, required: true },
+        suite: { type: String },
+        city: { type: String, required: true },
+        zipcode: { type: String, required: true },
+        geo: geoSchema,
+    },
+    { _id: false }
+);
+
+
+const companySchema = new mongoose.Schema(
+    {
+        name: { type: String },
+        catchPhrase: { type: String },
+        bs: { type: String },
+    },
+    { _id: false }
+);
+
+
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    username: { type: String },
+    email: { type: String, required: true },
+    phone: { type: String },
+    website: { type: String },
+    address: addressSchema,
+    company: companySchema,
+});
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-export const User = mongoose.models?.User || mongoose.model("User", userSchema);
-
+const User = mongoose.models?.user || mongoose.model("user", userSchema);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export default User;

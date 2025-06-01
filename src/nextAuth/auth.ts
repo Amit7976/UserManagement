@@ -1,13 +1,11 @@
 import { connectToDatabase } from "@/lib/utils";
-import Admin from "@/models/adminModel";
+import Admin from "@/models/adminModal";
 import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -22,13 +20,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        const user = await Admin.findOne({ email: credentials?.email }).select(
+        const admin = await Admin.findOne({ email: credentials?.email }).select(
           "+password"
         );
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (!user) {
+        if (!admin) {
           throw new Error("Invalid email or password");
         }
 
@@ -36,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const isPasswordCorrect = await compare(
           credentials!.password as string,
-          user.password
+          admin.password
         );
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,8 +46,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         return {
-          id: user._id.toString(),
-          email: user.email,
+          id: admin._id.toString(),
+          email: admin.email,
+          name: admin.name,
         };
       },
     }),
@@ -58,7 +57,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   pages: {
-    signIn: "/admin/auth/login",
+    signIn: "/auth/login",
   },
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,5 +71,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
 });

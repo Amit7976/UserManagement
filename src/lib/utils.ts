@@ -15,7 +15,6 @@ export function cn(...inputs: ClassValue[]) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Patch global for type-safe caching
 const globalWithMongoose = global as typeof global & {
   mongoose: {
     conn: typeof mongoose | null;
@@ -50,7 +49,7 @@ export const connectToDatabase = async () => {
     if (!uri) throw new Error("❌ Missing MONGO_URI");
 
     cached.promise = mongoose.connect(uri, {
-      dbName: "eventList",
+      dbName: "userManagemnt",
       bufferCommands: false,
       serverSelectionTimeoutMS: 10000,
     });

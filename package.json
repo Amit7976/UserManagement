@@ -1,5 +1,5 @@
 {
-  "name": "eventlist",
+  "name": "usermanagement",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,6 +20,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.12.1",
+    "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.2",
     "lucide-react": "^0.511.0",
     "mongoose": "^8.15.0",
     "motion": "^12.12.1",
@@ -32,6 +34,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.4",
     "react-icons": "^5.5.0",
+    "react-leaflet": "^5.0.0",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.7"
@@ -39,6 +42,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.18",
     "@types/node": "^20",
     "@types/puppeteer": "^5.4.7",
     "@types/react": "^19",
@@ -49,5 +53,22 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.0",
     "typescript": "^5"
-  }
+  },
+  "description": "Build a simple admin dashboard in Next.js (with TypeScript) to list users, add new ones via a multi-step form, and apply filters. The app should demonstrate API use, state handling, conditional rendering, and form validation.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amit7976/UserManagement.git"
+  },
+  "keywords": [
+    "usermanagemnet",
+    "nextjs",
+    "software"
+  ],
+  "author": "Amit Gupta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amit7976/UserManagement/issues"
+  },
+  "homepage": "https://github.com/Amit7976/UserManagement#readme"
 }
