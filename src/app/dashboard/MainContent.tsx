@@ -58,7 +58,7 @@ function MainContent() {
                 
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                const removedIds = removeUser.map((r: any) => r.id);
+                const removedIds: number[] = removeUser.map((r: { id: number }) => r.id);
                 
                 const filteredPlaceholder = placeholderData.filter(
                     (user) => !removedIds.includes(user.id)
@@ -71,8 +71,12 @@ function MainContent() {
                 setUsers(mergedData);
                 setFilteredUsers(mergedData);
                 setLoading(false);
-            } catch (err: any) {
-                setError(err.message);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError("An unknown error occurred");
+                }
                 setLoading(false);
             }
         };
@@ -123,7 +127,7 @@ function MainContent() {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    
+
     return (
         <>
             <div className="p-4  pl-20  lg:px-4 lg:py-4 lg:pl-20 overflow-y-scroll h-screen bg-slate-100 dark:bg-neutral-800">

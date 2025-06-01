@@ -1,17 +1,20 @@
-# 🎉 EventList – Full Stack Event Platform (Next.js + MongoDB)
-<br>
+# 👨‍💻 User Management Dashboard – Next.js + TypeScript + Zod + Tailwind
 
-This is a full-stack event list platform built with **Next.js + TypeScript** and **MongoDB (Atlas)**. It includes rich features like **scrap event data**, **admin authentication**, **event filtering**, and more.
+This is a **full-featured admin dashboard** built with **Next.js**, **TypeScript**, **Tailwind CSS**, and **Zod**, designed for user management tasks. It allows you to view, add, edit, delete, and export users, with support for both **local and external (JSONPlaceholder)** data.
+
+---
+
+## 🌐 Live Link
 
 🌐 **Live Site**: [eventlist-delta.vercel.app](https://eventlist-delta.vercel.app/)
 
 🌐 **Live Site Admin Panel**: [eventlist-delta.vercel.app/admin](https://eventlist-delta.vercel.app/admin)
 
-📦 **GitHub Repo**: [github.com/Amit7976/eventlist](https://github.com/Amit7976/eventlist)
-
-<br>
+📦 **GitHub Repo**: [https://github.com/Amit7976/UserManagement](https://github.com/Amit7976/UserManagement)
 
 ---
+
+
 <br>
 
 
@@ -26,48 +29,95 @@ This is a full-stack event list platform built with **Next.js + TypeScript** and
 
 <br>
 
-
 ---
 
 <br>
 
+### ADMIN REGISTER PAGE URL = `/auth/register`
+### ADMIN REGISTER PAGE UNLOCK Key = `thisIsAssignment`
+
+<br>
+
+---
 
 ## 📚 Features
 
-* 📝 Scrape websites to retrieve event data
-* 🔐 Auth with NextAuth (Email/Password)
-* 🧾 Data filtering and search
-* 📁 Admin Panel
-* 📱 Responsive Design (Mobile, Tab, PC)
-* 🌙 Dark Mode available 
-* 📤 Axios used for all API communication
-* 🗺️ Event Cards with image, title, location, date, and organizer
+### 🔍 Dashboard (/dashboard)
 
+* Fetch users from `https://jsonplaceholder.typicode.com/users` and local (own) database
+* Display users in **Card View** and **Table View**
+* **Persistent View Mode** using `localStorage`
+* **Search functionality** by **name** and **city**
+* **Loading placeholders** using Skeletons
+* **Delete user**:
 
-<br>
+  * JSONPlaceholder user ➜ moved to `removedUsers` table
+  * Own user ➜ completely deleted
+* **Edit user**:
+
+  * JSONPlaceholder user ➜ edited data becomes a **new own user**
+  * ID of the placeholder user is stored in `removedUsers`
+
+### ➕ Add User (/dashboard/add)
+
+* **Multi-step form** (3 steps):
+
+  1. Basic Info (name, email)
+  2. Address (street, city, zip)
+  3. Review & Confirm
+* Uses **Zod** + **React Hook Form** for validation:
+
+  * `name`, `email`, `street`, `city`, `zip` are **required**
+  * All other fields are **optional**
+* Precise location selection using a **Map Dialog**
+
+  * Click button ➜ open map ➜ drag to pick `lat` & `lng`
+* Data saved on submit and logged to console
+* **Progress saved** in `localStorage` to recover after refresh
+
+### ✏️ Edit User
+
+* Pre-fills all form fields
+* Reuses same multi-step structure with existing data
+* Validation remains intact
+
+### 🗑️ Delete User
+
+* Different handling for placeholder & own users
+* UI updates instantly with toast notifications
+
+### 📤 Export Functionality
+
+* Export user list to **CSV** and **JSON**
+* Clean export with headers and proper formatting
+
+### 🍞 Notifications
+
+* All major actions use **Toast messages** for real-time feedback
+
+### 🌈 UI/UX & Styling
+
+* Responsive Design using **Tailwind CSS**
+* Modern UI with **ShadCN UI**
+* **Dark/Light Mode** support
+* Smooth transitions with **framer-motion**
 
 ---
 
-<br>
-
-
 ## 🧰 Tech Stack
 
-### **Frontend:**
+### **Frontend**
 
 * [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+* [Tailwind CSS](https://tailwindcss.com/)
 * [ShadCN UI](https://ui.shadcn.com/) for modern UI components
-* [Axios](https://axios-http.com/) for API requests
-* [React Icons](https://react-icons.github.io/react-icons/) for iconography
+* [Framer Motion](https://www.framer.com/motion/) for animations
+* [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/) for form validation
 
-### **Backend & Auth:**
+### **State & Utilities**
 
-* [MongoDB Atlas](https://www.mongodb.com/atlas/database)
-* [Mongoose](https://mongoosejs.com/) for schema modeling
-* [NextAuth.js](https://next-auth.js.org/) for authentication
-* [bcryptjs](https://www.npmjs.com/package/bcryptjs) for password hashing
-
-<br>
+* [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) for persistent UI preferences
+* [Axios](https://axios-http.com/) for HTTP requests
 
 ---
 
@@ -76,12 +126,32 @@ This is a full-stack event list platform built with **Next.js + TypeScript** and
 ## 🔐 Environment Variables
 
 ```env
-MONGO_URI = mongodb+srv://guptaamit60600:NO7JprEG5qr7zAid@eventlist.b7m2hvd.mongodb.net/
+MONGO_URI = mongodb+srv://guptaamit60600:094SNKgNS5hBQCkN@usermanagement.ngepsbf.mongodb.net/?retryWrites=true&w=majority&appName=userManagement
 
-AUTH_SECRET = "X+lh3A635G3zrYgAH5OlsSGIfq75fRq44tQQdY3W8Eg="
+AUTH_SECRET= "d51Z7Z0rvqYHEvsR/ss67vR+KkR7nJEBu2JgdVOKqTw="
+
+NEXT_PUBLIC_ADMIN_REGISTER_UNLOCK_SECRET_KEY=thisIsAssignment
 ```
 
 <br>
+
+## 🗺 User Flow
+
+1. Navigate to `/dashboard`
+2. Toggle between **Card** or **Table** view (saved)
+3. Search for users by **name** or **city**
+4. Add a user from `/dashboard/add` via multi-step form
+5. Edit or delete users from list view
+6. Export user data as **CSV** or **JSON**
+7. Responsive toast messages guide the user throughout
+
+---
+
+## 🧠 Challenges Faced
+
+* Handling merged data from two sources (own & placeholder)
+* Keeping UI in sync after data changes (e.g., edit/delete)
+* Clean architecture with form validation and multi-step state
 
 ---
 
@@ -92,181 +162,49 @@ AUTH_SECRET = "X+lh3A635G3zrYgAH5OlsSGIfq75fRq44tQQdY3W8Eg="
 | Method | Endpoint                   | Description                   |
 | ------ | -------------------------- | ----------------------------- |
 | GET    | `/api/auth/[...nextauth]`  | Auth routes via NextAuth      |
-| GET    | `/api/newsletter`         | Retrieve all subscribers           |
-| POST   | `/api/newsletter`         | Add new Subscribers                 |
-| DELETE    | `/api/newsletter?id=`         | Remove Subscribers                |
-| GET | `/api/scrape`         | Scrape 1st to 5th page                |
-| GET    | `/api/scrape?page=`      | Scrape specific page     |
-| GET    | `/api/user` | Fetch all Event Interested Users |
-| POST    | `/api/user`   | Add new Event Interested User              |
-| DELETE    | `/api/users?id=`  | Remove Event Interested User             |
+| GET    | `/api/users`         | Retrieve all Users |
+| POST   | `/api/users`         | Add new Users |
+| DELETE    | `/api/users?id=`         | Remove Users |
+| PUT | `/api/users?id`         | Edit This User Details|
+| GET    | `https://jsonplaceholder.typicode.com/users`      | User Data from Api     |
+
 
 <br>
+
 
 ---
-
-<br>
-
-## 🚀 User Flow
-
-1. **Home Page** – Browse Events by Searching City and Country.
-2. **Authentication** – Login/Register via dedicated pages using NextAuth for accessing admin panel.
-3. **Dashboard** – View admin panel with event-interested users and subscriber details.
-6. **Logout** – Securely log out of the session.
-
-<br>
-
----
-
-<br>
-
-## ✅ Assignment Requirements Coverage
-
-| Requirement                      | Status    |
-| -------------------------------- | --------- |
-| Lists all the events in a specific city       | ✅         |
-| Scrape data from event websites  | ✅         |
-| List beautifully in the website              | ✅         |
-| Collect user email addresses    | ✅         |
-| Events are updated automatically       | ✅         |
-| Clean backend APIs               | ✅         |
-| MongoDB schema                   | ✅         |
-| Authentication (NextAuth)        | ✅ (Bonus) |
-| Admin Panel for managing users       | ✅         |
-| Scraped Events shown attractively    | ✅         |
-
-
-<br>
-
----
-
-<br>
-
-## 🗺 System Architecture Diagram
-
-This is the **system architecture diagram** of the Event List Website
-
-```
-[ User (Browser) ]
-        |
-        |  (1) Interacts via UI (Next.js + ShadCN)
-        v
-[ Frontend (Next.js + TypeScript) ]
-        |
-        |  (2) API Requests using Axios
-        v
-[ API Routes (Next.js Server Functions) ]
-        |
-        |  (3) Handles Auth, CRUD, Draft Save, etc.
-        v
-[ Backend (MongoDB via Mongoose) ]
-        |
-        |  (4) Stores Blog, User, and Auth Data
-        v
-[ MongoDB Atlas (Database) ]
-```
-
-<br>
-
----
-
-<br>
-
-## 📂 Folder Structure (Simplified)
-
-```
-/app
-  ├── api
-  │   ├── auth         → NextAuth configuration
-  │   ├── scrape       → Scraping Event List Website
-  │   ├── user         → Handle Event Interested User Operations
-  │   └── newsletter   → Handle Subscriber Operations
-  ├── admin            → Admin dashboard page
-  └── page.tsx         → Home page
-
-/components           → Reusable UI components  
-/lib                  → Helpers, DB connection, auth utilities  
-/models               → Mongoose models
-
-```
-
-<br>
-
----
-
-<br>
-
-## 🧠 Challenges Faced
-
-- Scraping data from websites
-- Secured API routes using NextAuth session management.
-
-<br>
-
----
-
-<br>
 
 ## 📷 Screenshots
 
 <p align="center">
-  <img src="./public/images/showcase/Screenshot (97).png" width="600" alt="Blog Post"/>
+  <img src="./public/images/showcase/Screenshot1.png" width="600" alt="Blog Post"/>
   <br/>
-  <em>Home Page</em>
+  <em>Dashboard</em>
 </p>
 
 <p align="center">
-  <img src="./public/images/showcase/Screenshot (103).png" width="600" alt="DashBoard Image"/>
+  <img src="./public/images/showcase/Screenshot2.png" width="600" alt="DashBoard Image"/>
   <br/>
-  <em>Event List Cards</em>
+  <em>Add New User</em>
 </p>
 
 <br>
 
 ---
 
-## Working Demo
-
-<br>
-
-🎬 [Click here to watch the Client Side demo video](https://drive.google.com/file/d/1O5YTRRuHpbR6RQogItaJrJnh_SuY9qwZ/view?usp=sharing)
-
-🎬 [Click here to watch the Admin Side demo video](https://drive.google.com/file/d/1q5UiJvMQaOQ00xLslQ_5YjHNG1QeTMdb/view?usp=sharing)
-
-<br>
-
----
-
-<br>
-
-## 🧪 Local Setup Instructions
+## 🛠 Local Setup
 
 ```bash
-git clone https://github.com/Amit7976/eventlist
-cd eventlist
+git clone https://github.com/Amit7976/UserManagement
+cd your-repo
 npm install
-# Add your .env file with the variables mentioned above
+# Add .env.local file if needed
 npm run dev
 ```
 
-<br>
-
 ---
-
-<br>
-
-## 🚀 Future Improvements
-
-- Display Full Events Details
-- Add pagination and infinite scroll to list Events
-
-<br>
-
----
-
-<br>
 
 ## 📬 Contact
 
-For any queries or issues:
+For queries, feel free to reach out:
 📧 [guptaamit60600@gmail.com](mailto:guptaamit60600@gmail.com)

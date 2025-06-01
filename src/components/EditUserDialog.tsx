@@ -1,13 +1,13 @@
 "use client"
-import { useEffect, useState } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider } from "react-hook-form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { UserFormData, userSchema } from "@/lib/types/formSchema";
+import { User } from "@/lib/types/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { Label } from "./ui/label";
 
 
@@ -15,59 +15,32 @@ import { Label } from "./ui/label";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const schema = z.object({
-    _id: z.string().optional(),
-    id: z.number().optional(),
-    name: z.string().min(1, "Name is required"),
-    email: z.string().email("Invalid email"),
-    username: z.string().optional(),
-    phone: z.string().optional(),
-    website: z.string().optional(),
-    address: z.object({
-        street: z.string().min(1, "Street is required"),
-        suite: z.string().optional(),
-        city: z.string().min(1, "City is required"),
-        zipcode: z.string().min(1, "Zipcode is required"),
-        geo: z.object({
-            lat: z.string().optional(),
-            lng: z.string().optional()
-        }).optional()
-    }),
-    company: z.object({
-        name: z.string().optional(),
-        catchPhrase: z.string().optional(),
-        bs: z.string().optional()
-    }).optional()
-});
+export default function EditUserDialog({ open, onOpenChange, user }: { open: boolean; onOpenChange: (open: boolean) => void; user: User }) {
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export default function EditUserDialog({ open, onOpenChange, user }: any) {
-    const methods = useForm({
-        resolver: zodResolver(schema),
-        defaultValues: user
+    const methods = useForm<UserFormData>({
+        resolver: zodResolver(userSchema),
+        defaultValues: {
+            ...user,
+            _id: (user._id ?? user.id ?? "").toString(),
+        }
     });
 
-
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     useEffect(() => {
         if (user) {
-            methods.reset(user);
+            methods.reset({ ...user, _id: (user._id ?? user.id)?.toString() ?? "" });
         }
     }, [user, methods]);
     const [step, setStep] = useState(1);
     const nextStep = () => setStep((s) => s + 1);
     const prevStep = () => setStep((s) => s - 1);
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    const router = useRouter();
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: UserFormData) => {
         console.log('====================================');
         console.log("run");
         console.log('====================================');
@@ -105,16 +78,16 @@ export default function EditUserDialog({ open, onOpenChange, user }: any) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <Label className="col-span-1">Name</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("name")} placeholder="Name" />
-                                
+
                                 <Label className="col-span-1">Email Address</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("email")} placeholder="Email" />
-                                
+
                                 <Label className="col-span-1">UserName</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("username")} placeholder="Username" />
-                                
+
                                 <Label className="col-span-1">Phone Number</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("phone")} placeholder="Phone" />
-                                
+
                                 <Label className="col-span-1">Website</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("website")} placeholder="Website" />
                             </div>
@@ -124,7 +97,7 @@ export default function EditUserDialog({ open, onOpenChange, user }: any) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <Label className="col-span-1">Street</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("address.street")} placeholder="Street" />
-                                
+
                                 <Label className="col-span-1">Suite</Label>
                                 <Input className="h-12 col-span-2" {...methods.register("address.suite")} placeholder="Suite" />
 

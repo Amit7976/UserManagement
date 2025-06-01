@@ -3,20 +3,21 @@ import Link from "next/link";
 import { useState } from "react";
 import AnimatedCardActions from "./AnimatedCardActions";
 import EditUserDialog from "./EditUserDialog";
+import { User } from "@/lib/types/user";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function UserCard({ filteredUsers, setUsers }: any) {
+function UserCard({ filteredUsers, setUsers }: { filteredUsers: User[]; setUsers: React.Dispatch<React.SetStateAction<User[]>> }) {
     const [selectedUserId, setSelectedUserId] = useState<number | string | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [editData, setEditData] = useState<any>(null);
+    const [editData, setEditData] = useState<User | null>(null);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const handleEditClick = (user: any) => {
+    const handleEditClick = (user: User) => {
         setEditData({ ...user });
         setIsDialogOpen(true);
     };
@@ -36,7 +37,7 @@ function UserCard({ filteredUsers, setUsers }: any) {
 
             if (!res.ok) throw new Error("Failed to delete user");
 
-            const updatedUsers = filteredUsers.filter((u: any) => (u.id || u._id) !== id);
+            const updatedUsers = filteredUsers.filter((u) => (u.id || u._id) !== id);
             setUsers(updatedUsers);
             setSelectedUserId(null);
         } catch (error) {
@@ -50,7 +51,7 @@ function UserCard({ filteredUsers, setUsers }: any) {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredUsers.length > 0 ? (
-                filteredUsers.map((user: any) => (
+                filteredUsers.map((user: User) => (
                     <div key={user.id || user._id} className={`${selectedUserId === (user.id || user._id) ? 'scale-105 pb-2 duration-300 rounded-2xl' : ''}`}>
                         <div
                             className={`transition-all duration-300 bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 rounded-2xl shadow-md hover:shadow-xl p-6 cursor-pointer hover:-translate-y-1 ${selectedUserId === (user.id || user._id)
@@ -114,11 +115,13 @@ function UserCard({ filteredUsers, setUsers }: any) {
                     No users found
                 </div>
             )}
-            <EditUserDialog
-                open={isDialogOpen}
-                onOpenChange={setIsDialogOpen}
-                user={editData}
-            />
+            {editData && (
+                <EditUserDialog
+                    open={isDialogOpen}
+                    onOpenChange={setIsDialogOpen}
+                    user={editData}
+                />
+            )}
         </div>
     );
 }

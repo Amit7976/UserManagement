@@ -8,7 +8,7 @@ import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+// Removed unnecessary deletion of _getIconUrl as it does not exist on L.Icon.Default.prototype
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
     iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",

@@ -1,13 +1,21 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
+import { User } from "@/lib/types/user";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const AnimatedCardActions = ({ user, onEdit, onDelete, isVisible }: any) => {
+interface AnimatedCardActionsProps {
+    user: User;
+    onEdit: (user: User) => void;
+    onDelete: (id: string) => void;
+    isVisible: boolean;
+}
+
+const AnimatedCardActions = ({ user, onEdit, onDelete, isVisible }: AnimatedCardActionsProps) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const [height, setHeight] = useState(0);
 
@@ -44,7 +52,7 @@ const AnimatedCardActions = ({ user, onEdit, onDelete, isVisible }: any) => {
                         <Button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onDelete(user.id || user._id);
+                                onDelete(String(user.id || user._id));
                             }}
                             className="flex-1 text-xs bg-red-500 hover:bg-red-600 text-white"
                         >

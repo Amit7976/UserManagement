@@ -81,7 +81,8 @@ export default function MainContent() {
             setMarker(null);
             setMapOpen(false);
             setStep(0);
-            localStorage.removeItem("user-form");;
+            localStorage.removeItem("user-form");
+            localStorage.setItem("user-form", '');
 
         } catch (error) {
             console.error("Failed to add user:", error);

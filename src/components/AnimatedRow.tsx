@@ -1,13 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
+import { User } from "@/lib/types/user";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const AnimatedRow = ({ user, onEdit, onDelete, isVisible, index }: any) => {
+const AnimatedRow = ({ user, onEdit, onDelete, isVisible, index }: { user: User; onEdit: (user: User) => void; onDelete: (id: string | number) => void; isVisible: boolean; index: number }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const [height, setHeight] = useState(0);
 

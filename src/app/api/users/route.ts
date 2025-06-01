@@ -31,7 +31,7 @@ async function getFakeApiIds() {
 
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   await connectToDatabase();
   const users = await User.find({});
   const removeUser = await RemoveUser.find({});
@@ -69,7 +69,7 @@ export async function PUT(req: NextRequest) {
   const userId = data._id || null;
   const apiId = data.id;
 
-  if (userId) {
+  if (userId && userId.length >= 24) {
     const existingUser = await User.findById(userId);
     if (existingUser) {
       const updatedUser = await User.findByIdAndUpdate(userId, data, {
@@ -97,6 +97,9 @@ export async function PUT(req: NextRequest) {
   }
 
   if (fakeApiIds!.includes(apiId)) {
+    if (data._id && data._id.length < 24) {
+      delete data._id;
+    }
     await RemoveUser.updateOne({ id: apiId }, { id: apiId }, { upsert: true });
     const newUser = new User(data);
     await newUser.save();

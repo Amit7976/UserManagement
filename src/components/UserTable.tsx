@@ -4,17 +4,18 @@ import Link from "next/link";
 import React, { useState } from "react";
 import AnimatedRow from "./AnimatedRow";
 import EditUserDialog from "./EditUserDialog";
+import { User } from "@/lib/types/user";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function UserTable({ filteredUsers, setUsers }: any) {
+function UserTable({ filteredUsers, setUsers }: { filteredUsers: User[]; setUsers: React.Dispatch<React.SetStateAction<User[]>> }) {
     const [selectedUserId, setSelectedUserId] = useState<number | string | null>(null);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     const handleDelete = async (id: number | string) => {
         const confirmDelete = confirm("Are you sure you want to delete this user?");
         if (!confirmDelete) return;
@@ -33,7 +34,7 @@ function UserTable({ filteredUsers, setUsers }: any) {
                 throw new Error("Failed to delete user");
             }
 
-            const updatedUsers = filteredUsers.filter((u: any) => (u.id || u._id) !== id);
+            const updatedUsers = filteredUsers.filter((u: User) => (u.id || u._id) !== id);
             setUsers(updatedUsers);
             setSelectedUserId(null);
         } catch (error) {
@@ -45,11 +46,11 @@ function UserTable({ filteredUsers, setUsers }: any) {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [editData, setEditData] = useState<any>(null);
+    const [editData, setEditData] = useState<User | null>(null);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const handleEditClick = (user: any) => {
+    const handleEditClick = (user: User) => {
         setEditData({ ...user });
         setIsDialogOpen(true);
     };
@@ -81,7 +82,7 @@ function UserTable({ filteredUsers, setUsers }: any) {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredUsers.map((user: any, index: number) => (
+                        {filteredUsers.map((user: User, index: number) => (
                             <React.Fragment key={user.id || user._id}>
                                 <motion.tr
                                     layout
@@ -145,6 +146,7 @@ function UserTable({ filteredUsers, setUsers }: any) {
                                             isVisible={selectedUserId === (user.id || user._id)}
                                             onEdit={handleEditClick}
                                             onDelete={handleDelete}
+                                            index={index}
                                         />
                                     )}
                                 </AnimatePresence>
@@ -159,11 +161,13 @@ function UserTable({ filteredUsers, setUsers }: any) {
                         )}
                     </tbody>
                 </table>
-                <EditUserDialog
-                    open={isDialogOpen}
-                    onOpenChange={setIsDialogOpen}
-                    user={editData}
-                />
+                {editData && (
+                    <EditUserDialog
+                        open={isDialogOpen}
+                        onOpenChange={setIsDialogOpen}
+                        user={editData}
+                    />
+                )}
             </div>
         </>
     )
