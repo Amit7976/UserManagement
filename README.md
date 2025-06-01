@@ -6,9 +6,9 @@ This is a **full-featured admin dashboard** built with **Next.js**, **TypeScript
 
 ## 🌐 Live Link
 
-🌐 **Live Site**: [eventlist-delta.vercel.app](https://eventlist-delta.vercel.app/)
+🌐 **Live Site**: [https://user-management-mu-two.vercel.app](https://user-management-mu-two.vercel.app)
 
-🌐 **Live Site Admin Panel**: [eventlist-delta.vercel.app/admin](https://eventlist-delta.vercel.app/admin)
+🌐 **Live Site Admin Panel**: [https://user-management-mu-two.vercel.app/dashboard](https://user-management-mu-two.vercel.app/dashboard)
 
 📦 **GitHub Repo**: [https://github.com/Amit7976/UserManagement](https://github.com/Amit7976/UserManagement)
 
